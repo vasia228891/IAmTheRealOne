@@ -40,11 +40,14 @@ func (r TaskRepository) Save(u domain.Task) (domain.Task, error) {
 	return newUser, err
 }
 
-func (r TaskRepository) mapDomainToModel(u domain.Task) Task {
-	return user{
-		Id:       u.Id,
-		Name:     u.Name,
-		Password: u.Password,
+func (r TaskRepository) mapDomainToModel(u domain.Task) task {
+	return task{
+		Id:          u.Id,
+		User_id:     u.User_id,
+		Title:       u.Title,
+		Description: u.Description,
+		Status:      u.Status,
+		Date:        u.Date,
 	}
 }
 
@@ -60,7 +63,7 @@ func (r TaskRepository) MapModelToDomain(u task) domain.Task {
 }
 
 func (r TaskRepository) FinById(id uint64) (domain.Task, error) {
-	var u user
+	var u task
 	err := r.coll.Find("id = ?", id).One(&u)
 	if err != nil {
 		return domain.Task{}, err
